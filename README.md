@@ -5,3 +5,4 @@
 This repo contains all the protocol specifications KILT has developed.
 
 - [DID Method Specification](docs/did/did-spec.md)
+- [KiltPublishedCredentialCollectionV1 Service Specification](docs/did/kilt-published-credential-collection-v1.md)
