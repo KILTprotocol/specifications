@@ -79,6 +79,14 @@ This specification does not enforce service endpoints of type `KiltPublishedCred
 Nevertheless, it is recommended to use integrity-protected URIs ensuring that the off-chain data represented by the collection of credentials is immutably linked to the information specified in the service endpoint and anchored to the KILT blockchain.
 Examples of integrity-protected URIs include [IPFS][ipfs] and [Hashlink][hashlink], as the one presented above in the [Data structure section](#data-structure).
 
+## Security considerations
+
+In most cases, the credentials published in a collection behind a service endpoint are meant to be consumed in a non-interactive way, i.e., without the participation of the credential subject proving ownership over them.
+This means that the trust in the link between the credential subject and the credentials in the published collection must be established as a separate step.
+
+**Credential consumers must at the very least verify that the subject of each and every credential of interest in the published collection, i.e., the value of the `claim.owner` property, matches the identity of the intended subject.
+This operation is required because it is trivial for malicious third parties to retrieve the credential collection of an unaware user and publish the same collection as one of their own endpoints. This operation might mislead unaware credential consumers.**
+
 [did-core-spec]: https://www.w3.org/TR/did-core
 [kilt-did-spec]: did-spec.md
 [did-core-spec-services]: https://www.w3.org/TR/did-core/#services=
