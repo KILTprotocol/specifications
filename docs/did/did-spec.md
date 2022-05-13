@@ -1,6 +1,6 @@
 [![](https://user-images.githubusercontent.com/39338561/122415864-8d6a7c00-cf88-11eb-846f-a98a936f88da.png)](https://kilt.io)
 
-# KILT Decentralised Identifiers (DID) Method Specification
+# KILT Decentralized Identifiers (DID) Method Specification
 
 ### Editors
 
@@ -19,7 +19,7 @@
 ## Abstract
 
 This document defines a the KILT DID Method that conforms to the [DID Core W3C Spec][did-core-spec].
-A KILT Decentralised Identifier (DID) is a string uniquely identifying entities within the KILT network, allowing them to create CTypes, issue/collect attestations, and create delegation hierarchies.
+A KILT Decentralized Identifier (DID) is a string uniquely identifying entities within the KILT network, allowing them to create CTypes, issue/collect attestations, and create delegation hierarchies.
 For more information about KILT DIDs and their usage, please visit our [official documentation][kilt-did-docs].
 
 ## Method Syntax
@@ -47,7 +47,7 @@ did-identifier      = <base-58-encoded-kilt-address>
 additional-details  = <base-58-encoded-details>
 ```
 
-where `<base-58-encoded-kilt-address>` is a KILT address, and `<base-58-encoded-details>` is the Base58-encoded and CBOR-serialised version of the additional light DID details, as explained below.
+where `<base-58-encoded-kilt-address>` is a KILT address, and `<base-58-encoded-details>` is the Base58-encoded and CBOR-serialized version of the additional light DID details, as explained below.
 
 KILT light DIDs are entirely off-chain and support a single authentication key, an optional key agreement key, and unlimited service details.
 
@@ -58,7 +58,7 @@ The types of authentication keys supported by a light DID are `sr25519`, and `ed
 
 The optional *encryption key*, if present, can currently only be of type `x25519`.
 
-Both the encryption key and *services*, if present upon light DID creation, are combined into a JSON-like structure, which is then serialised using [CBOR][cbor], flagged to indicate the serialisation strategy used, and Base58-multiencoded following the [multibase][multibase-repo] specification.
+Both the encryption key and *services*, if present upon light DID creation, are combined into a JSON-like structure, which is then serialized using [CBOR][cbor], flagged to indicate the serialization strategy used, and Base58-multiencoded following the [multibase][multibase-repo] specification.
 The resulting string is then appended to the light DID identifier after an additional `:` to separate the main identifier representing the DID public authentication key from the additional details.
 
 Hence, for a light DID with the following details:
@@ -135,7 +135,7 @@ When stored on chain, each key is stored under the identifier that is generated 
 
 The information about the submitter is required to be included and signed by the DID subject because upon the creation of a new DID on the KILT blockchain, a deposit is taken from the submitter's balance.
 To make it possible for the deposit payer to claim back the deposit, KILT allows not only the DID subject but also the deposit owner for a given DID, to delete that DID from the blockchain state.
-This deposit is returned only upon deletion of the DID to incentivise keeping data on the blockchain that is still relevant as well as to subsidise the removal of unnecessary storage items thus reducing the on-chain storage space.
+This deposit is returned only upon deletion of the DID to incentivize keeping data on the blockchain that is still relevant as well as to subsidize the removal of unnecessary storage items thus reducing the on-chain storage space.
 
 > For security reasons, a full DID can only be created once.
 After it is deactivated, it is permanently added to a "blacklist" which prevents a DID with the same identifier from being created again.
@@ -300,7 +300,7 @@ Extrinsics also have a limited validity period, called mortality, measured in bl
 
 ## Replay attacks
 
-As DIDs constitute a layer on top of the account layer, each DID also has a nonce associated, which is increased every time a DID-authorised operation is performed, e.g., a DID update or a CType creation.
+As DIDs constitute a layer on top of the account layer, each DID also has a nonce associated, which is increased every time a DID-authorized operation is performed, e.g., a DID update or a CType creation.
 A DID operation is considered valid only if `operation_nonce == current_nonce + 1`.
 The nonce wraps around its maximum value, as each DID operation also has mortality, measured in blocks number.
 
@@ -312,12 +312,12 @@ Nevertheless, solutions like hierarchical key generation allow to generate new a
 
 ## Man-in-the-middle
 
-To incentivise users to only keep the relevant data on the KILT blockchain, writing a DID requires locking up some KILTs of deposit which is then returned when the DID is deleted.
+To incentivize users to only keep the relevant data on the KILT blockchain, writing a DID requires locking up some KILTs of deposit which is then returned when the DID is deleted.
 Since DIDs are decoupled from KILT accounts, a DID needs a KILT account with enough funds to pay for the creation deposit.
 In order not to make the deposit payer dependent on the DID subject to delete the DID and obtain the deposit back, the KILT DID method also allows the deposit payer to delete the DID information from the blockchain and get the deposit refunded.
 
-Hence, a DID creation operation requires the DID subject to explicitly specify the authorised submitter of the operation as part of the signed data.
-This ensures that nobody can submit the DID creation operation on behalf of the designated user and, consequently, that nobody can delete a DID without the initial authorisation of the DID subject expressed as part of the creation operation signature.
+Hence, a DID creation operation requires the DID subject to explicitly specify the authorized submitter of the operation as part of the signed data.
+This ensures that nobody can submit the DID creation operation on behalf of the designated user and, consequently, that nobody can delete a DID without the initial authorization of the DID subject expressed as part of the creation operation signature.
 
 ## Denial-of-Service
 
