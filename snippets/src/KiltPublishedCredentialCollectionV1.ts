@@ -8,15 +8,14 @@ const web3Name = 'john_doe'
 // The type to filter the endpoints of the retrieved DID.
 const endpointType = 'KiltPublishedCredentialCollectionV1'
 
-const verifyCredential = async (publishedCredential: Kilt.IRequestForAttestation): Promise<boolean> => {
+const verifyCredential = async (publishedCredential: Kilt.RequestForAttestation): Promise<boolean> => {
   // Retrieve the on-chain attestation information about the credential.
   const onChainAttestation = await Kilt.Attestation.query(publishedCredential.rootHash)
-  if (!onChainAttestation) {
+  if (!onChainAttestation || onChainAttestation.revoked) {
     return false
   }
-  // Construct the complete KILT credential (published part + on-chain part) and verify it
-  const kiltCompleteCredential = Kilt.Credential.fromRequestAndAttestation(publishedCredential, onChainAttestation)
-  return kiltCompleteCredential.verify()
+  // Verify the credential integrity and the subject's signature.
+  return publishedCredential.verifyData() && publishedCredential.verifySignature()
 }
 
 async function main() {
