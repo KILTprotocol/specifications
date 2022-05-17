@@ -8,10 +8,7 @@
 
 ### Version History
 
-<!---
-TODO Replace date before merging PR
--->
-- **v1.0 - Xxx.xx 2022**: Initial spec publishing
+- **v1.0 - May.17 2022**: Initial spec publishing
 
 ---
 
