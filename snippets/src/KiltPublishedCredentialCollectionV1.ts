@@ -8,6 +8,17 @@ const web3Name = 'john_doe'
 // The type to filter the endpoints of the retrieved DID.
 const endpointType = 'KiltPublishedCredentialCollectionV1'
 
+const verifyCredential = async (publishedCredential: Kilt.IRequestForAttestation): Promise<boolean> => {
+  // Retrieve the on-chain attestation information about the credential.
+  const onChainAttestation = await Kilt.Attestation.query(publishedCredential.rootHash)
+  if (!onChainAttestation) {
+    return false
+  }
+  // Construct the complete KILT credential (published part + on-chain part) and verify it
+  const kiltCompleteCredential = Kilt.Credential.fromRequestAndAttestation(publishedCredential, onChainAttestation)
+  return kiltCompleteCredential.verify()
+}
+
 async function main() {
   await Kilt.init({ address: endpointAddress })
   const didForWeb3Name = await Kilt.Did.Web3Names.queryDidForWeb3Name(web3Name)
@@ -48,17 +59,6 @@ async function main() {
   ).then((response) => response.json())
   console.log(`Credential collection behind the endpoint:`)
   console.log(JSON.stringify(credentialCollection, null, 2))
-
-  const verifyCredential = async (publishedCredential: Kilt.IRequestForAttestation): Promise<boolean> => {
-    // Retrieve the on-chain attestation information about the credential.
-    const onChainAttestation = await Kilt.Attestation.query(publishedCredential.rootHash)
-    if (!onChainAttestation) {
-      return false
-    }
-    // Construct the complete KILT credential (published part + on-chain part) and verify it
-    const kiltCompleteCredential = Kilt.Credential.fromRequestAndAttestation(publishedCredential, onChainAttestation)
-    return kiltCompleteCredential.verify()
-  }
 
   // Verify that all credentials are valid and that they all refer to the same DID.
   await Promise.all(
