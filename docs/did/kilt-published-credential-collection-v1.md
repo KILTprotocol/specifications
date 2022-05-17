@@ -25,10 +25,8 @@ For more information about the KILT DID method, please visit our [official speci
 
 A service endpoint of type `KiltPublishedCredentialCollectionV1` does not include any additional properties compared to what is defined within the [relative section of the official DID Core spec][did-core-spec-services].
 Furthermore, endpoints of such type MUST include at least *one* URI for the `serviceEndpoint` property.
-It is recommended to use integrity-protected URIs ensuring that the off-chain data represented by the collection of credentials is immutably linked to the information specified in the service endpoint and anchored to the KILT blockchain.
+The URIs SHOULD support integrity protection to ensure that the off-chain data represented by the collection of credentials is immutably linked to the information specified in the service endpoint and anchored to the KILT blockchain.
 Examples of integrity-protected URIs include [IPFS][ipfs] and [Hashlink][hashlink], as the one presented in the example below.
-
-An example service endpoint could be the following:
 
 ```json
 {
@@ -42,8 +40,8 @@ An example service endpoint could be the following:
 }
 ```
 
-The URIs in the service endpoint must each point to a resource that is retrievable with a GET request.
-The expected structure of the resource returned by the service endpoint must be **a list of 0 or more elements** of KILT credential objects:
+Each of the URIs in the service endpoint MUST point to a resource that is retrievable with a GET request.
+The structure of the resource returned by the service endpoint MUST be **a list of 0 or more elements** of KILT credential objects.
 
 ```json
 [
@@ -78,9 +76,9 @@ For more information about KILT and its credential structure, please visit the [
 ## Security considerations
 
 In most cases, the credentials published in a collection behind a service endpoint are meant to be consumed in a non-interactive way, i.e., without the participation of the credential subject proving ownership over them.
-This means that the trust in the link between the credential subject and the credentials in the published collection must be established as a separate step.
+This means that the trust in the link between the credential subject and the credentials in the published collection SHOULD be established as a separate step.
 
-**Credential consumers must at the very least verify that the subject of each and every credential of interest in the published collection, i.e., the value of the `claim.owner` property, matches the identity of the intended subject.
+**Credential consumers SHOULD at the very least verify that the subject of each and every credential of interest in the published collection, i.e., the value of the `claim.owner` property, matches the identity of the intended subject.
 This operation is required because it is trivial for malicious third parties to retrieve the credential collection of an unaware user and publish the same collection as one of their own endpoints. This operation might mislead unaware credential consumers.**
 
 [did-core-spec]: https://www.w3.org/TR/did-core
