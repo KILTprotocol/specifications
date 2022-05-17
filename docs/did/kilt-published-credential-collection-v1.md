@@ -18,6 +18,7 @@ TODO Replace date before merging PR
 ## Abstract
 
 This document defines an extension to the service types supported in the [DID Core W3C spec][did-core-spec] by defining the `KiltPublishedCredentialCollectionV1` service type.
+The goal of the endpoints of this class is to expose a collection (i.e., a list) of KILT credentials, which anyone can retrieve and verify using the functionalities that the [KILT SDK][kilt-sdk] provides.
 For more information about the KILT DID method, please visit our [official specification][kilt-did-spec].
 
 ## Data structure
@@ -88,6 +89,7 @@ This means that the trust in the link between the credential subject and the cre
 This operation is required because it is trivial for malicious third parties to retrieve the credential collection of an unaware user and publish the same collection as one of their own endpoints. This operation might mislead unaware credential consumers.**
 
 [did-core-spec]: https://www.w3.org/TR/did-core
+[kilt-sdk]: https://github.com/KILTprotocol/sdk-js
 [kilt-did-spec]: did-spec.md
 [did-core-spec-services]: https://www.w3.org/TR/did-core/#services=
 [kilt-credential-docs]: https://docs.kilt.io/docs/sdk/core-feature/claiming
