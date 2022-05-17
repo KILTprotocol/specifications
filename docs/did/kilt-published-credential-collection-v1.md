@@ -81,6 +81,10 @@ This means that the trust in the link between the credential subject and the cre
 **Credential consumers SHOULD at the very least verify that the subject of each and every credential of interest in the published collection, i.e., the value of the `claim.owner` property, matches the identity of the intended subject.
 This operation is required because it is trivial for malicious third parties to retrieve the credential collection of an unaware user and publish the same collection as one of their own endpoints. This operation might mislead unaware credential consumers.**
 
+## Example implementation
+
+An snippet implementing a simple verification flow fetching the DID document, parsing its endpoints, and verifying the credential collection can be found [KiltPublishedCredentialCollectionV1.ts](../../snippets/src/KiltPublishedCredentialCollectionV1.ts).
+
 [did-core-spec]: https://www.w3.org/TR/did-core
 [kilt-sdk]: https://github.com/KILTprotocol/sdk-js
 [kilt-did-spec]: did-spec.md
