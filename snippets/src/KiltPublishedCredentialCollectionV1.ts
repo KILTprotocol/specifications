@@ -41,7 +41,7 @@ async function main() {
     console.log(`The DID has no service endpoints of type "${endpointType}".`)
   }
 
-  // Retrieve the credentials pointed at by the endpoint. Being an IPFS endpoint, the fetching can take an arbitrarily long time.
+  // Retrieve the credentials pointed at by the endpoint. Being an IPFS endpoint, the fetching can take an arbitrarily long time or even fail if the timeout is reached.
   // The case where the result is not a JSON should be handled in production settings.
   const credentialCollection: Kilt.IRequestForAttestation[] = await fetch(
     firstCredentialCollectionEndpointUrl
@@ -49,16 +49,24 @@ async function main() {
   console.log(`Credential collection behind the endpoint:`)
   console.log(JSON.stringify(credentialCollection, null, 2))
 
+  const verifyCredential = async (publishedCredential: Kilt.IRequestForAttestation): Promise<boolean> => {
+    // Retrieve the on-chain attestation information about the credential.
+    const onChainAttestation = await Kilt.Attestation.query(publishedCredential.rootHash)
+    if (!onChainAttestation) {
+      return false
+    }
+    // Construct the complete KILT credential (published part + on-chain part) and verify it
+    const kiltCompleteCredential = Kilt.Credential.fromRequestAndAttestation(publishedCredential, onChainAttestation)
+    return kiltCompleteCredential.verify()
+  }
+
   // Verify that all credentials are valid and that they all refer to the same DID.
   await Promise.all(
     credentialCollection.map(async (credential) => {
       const credentialInstance =
         Kilt.RequestForAttestation.fromRequest(credential)
       // Verify the credential integrity and signature, according to the KILT specification.
-      const credentialStatus =
-        credentialInstance.verifyData() &&
-        credentialInstance.verifyRootHash() &&
-        (await credentialInstance.verifySignature())
+      const credentialStatus = await verifyCredential(credentialInstance)
       if (!credentialStatus) {
         throw 'Integrity and signature checks have failed for one of the credentials.'
       }
