@@ -83,7 +83,7 @@ This operation is required because it is trivial for malicious third parties to 
 
 ## Example implementation
 
-An snippet implementing a simple verification flow fetching the DID document, parsing its endpoints, and verifying the credential collection can be found [KiltPublishedCredentialCollectionV1.ts](../../snippets/src/KiltPublishedCredentialCollectionV1.ts).
+An example code snippet implementing a simple verification flow fetching the DID document, parsing its endpoints, and verifying the credential collection can be found in [KiltPublishedCredentialCollectionV1.ts](../../snippets/src/KiltPublishedCredentialCollectionV1.ts).
 
 [did-core-spec]: https://www.w3.org/TR/did-core
 [kilt-sdk]: https://github.com/KILTprotocol/sdk-js
