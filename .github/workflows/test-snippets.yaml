@@ -34,4 +34,4 @@ jobs:
         env:
           NODE_OPTIONS: --unhandled-rejections=strict
         run: |
-          yarn run ts-node src/KiltPublishedCredentialCollectionV1.ts
+          yarn test:ci

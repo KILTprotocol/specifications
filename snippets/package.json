@@ -6,7 +6,8 @@
     "lint": "eslint . --ext .ts --format=codeframe",
     "lint:fix": "yarn lint --fix",
     "style": "prettier --check --config .prettierrc **/*.ts",
-    "style:fix": "yarn style --write"
+    "style:fix": "yarn style --write",
+    "test:ci": "yarn ts-node src/KiltPublishedCredentialCollectionV1.ts"
   },
   "devDependencies": {
     "@types/node": "^17.0.33",
