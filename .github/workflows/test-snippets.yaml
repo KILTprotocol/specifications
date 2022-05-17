@@ -23,11 +23,13 @@ jobs:
           node-version: 16.x
 
       - name: Test style conventions
+        working-directory: snippets
         run: |
           yarn install --frozen
           yarn lint
           yarn style
       - name: Run script
+        working-directory: snippets
         timeout-minutes: 5
         env:
           NODE_OPTIONS: --unhandled-rejections=strict
