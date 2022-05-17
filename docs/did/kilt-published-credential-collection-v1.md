@@ -26,6 +26,8 @@ For more information about the KILT DID method, please visit our [official speci
 A service endpoint of type `KiltPublishedCredentialCollectionV1` does not include any additional properties compared to what is defined within the [relative section of the official DID Core spec][did-core-spec-services].
 Nevertheless, this specification defines the structure of the data returned by such endpoint.
 
+Specifically, at the present moment, service endpoints for KILT DIDs support a maximum of *one* value for the `type` property and *one* value for the `serviceEndpoint` property.
+Both of these properties are sets as defined in the [DID Core W3C spec][did-core-spec].
 An example service endpoint could be the following:
 
 ```json
