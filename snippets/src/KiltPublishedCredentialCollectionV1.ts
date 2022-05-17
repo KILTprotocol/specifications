@@ -52,7 +52,7 @@ async function main() {
   }
 
   // Retrieve the credentials pointed at by the endpoint. Being an IPFS endpoint, the fetching can take an arbitrarily long time or even fail if the timeout is reached.
-  // The case where the result is not a JSON should be handled in production settings.
+  // The case where the result is not a JSON should be properly handled in production settings.
   const credentialCollection: Kilt.IRequestForAttestation[] = await fetch(
     firstCredentialCollectionEndpointUrl
   ).then((response) => response.json())
