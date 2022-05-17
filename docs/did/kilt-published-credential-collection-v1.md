@@ -24,10 +24,10 @@ For more information about the KILT DID method, please visit our [official speci
 ## Data structure
 
 A service endpoint of type `KiltPublishedCredentialCollectionV1` does not include any additional properties compared to what is defined within the [relative section of the official DID Core spec][did-core-spec-services].
-Nevertheless, this specification defines the structure of the data returned by such endpoint.
+Furthermore, endpoints of such type MUST include at least *one* URI for the `serviceEndpoint` property.
+It is recommended to use integrity-protected URIs ensuring that the off-chain data represented by the collection of credentials is immutably linked to the information specified in the service endpoint and anchored to the KILT blockchain.
+Examples of integrity-protected URIs include [IPFS][ipfs] and [Hashlink][hashlink], as the one presented in the example below.
 
-Specifically, at the present moment, service endpoints for KILT DIDs support a maximum of *one* value for the `type` property and *one* value for the `serviceEndpoint` property.
-Both of these properties are sets as defined in the [DID Core W3C spec][did-core-spec].
 An example service endpoint could be the following:
 
 ```json
@@ -42,9 +42,8 @@ An example service endpoint could be the following:
 }
 ```
 
-The example above indicates that the subject has published a collection of KILT credentials that can be obtained by retrieving the resource at the URI indicated by the `serviceEndpoint` property.
-
-This specification defined the expected structure of the resource pointed at by a service endpoint of type `KiltPublishedCredentialCollectionV1` as being **a list of 0 or more elements** having the structure of a KILT credential:
+The URIs in the service endpoint must each point to a resource that is retrievable with a GET request.
+The expected structure of the resource returned by the service endpoint must be **a list of 0 or more elements** of KILT credential objects:
 
 ```json
 [
@@ -75,12 +74,6 @@ This specification defined the expected structure of the resource pointed at by 
 ```
 
 For more information about KILT and its credential structure, please visit the [official documentation][kilt-credential-docs].
-
-### Service endpoint URIs
-
-This specification does not enforce service endpoints of type `KiltPublishedCredentialCollectionV1` to have any specific value for their `serviceEndpoint` property.
-Nevertheless, it is recommended to use integrity-protected URIs ensuring that the off-chain data represented by the collection of credentials is immutably linked to the information specified in the service endpoint and anchored to the KILT blockchain.
-Examples of integrity-protected URIs include [IPFS][ipfs] and [Hashlink][hashlink], as the one presented above in the [Data structure section](#data-structure).
 
 ## Security considerations
 
