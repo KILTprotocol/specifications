@@ -102,5 +102,5 @@ async function main() {
 
 main()
   .then(() => process.exit(0))
-  .catch((e) => console.error(e))
+  .catch(() => process.exit(1))
   .finally(async () => await Kilt.disconnect())
