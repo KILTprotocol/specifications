@@ -8,6 +8,7 @@
 
 ### Version History
 
+- **v1.1 - May.25 2022**: Add support for optional credential metadata
 - **v1.0 - May.17 2022**: Initial spec publishing
 
 ---
@@ -38,37 +39,50 @@ Examples of integrity-protected URIs include [IPFS][ipfs] and [Hashlink][hashlin
 ```
 
 Each of the URIs in the service endpoint MUST point to a resource that is retrievable with a GET request.
-The structure of the resource returned by the service endpoint MUST be **a list of 0 or more elements** of KILT credential objects.
+The structure of the resource returned by the service endpoint MUST be **a list of 0 or more elements** with the following structure.
 
 ```json
 [
   {
-    "claim": {
-      "cTypeHash": "0x47d04c42bdf7fdd3fc5a194bcaa367b2f4766a6b16ae3df628927656d818f420",
-      "contents": {
-        "Twitter": "mr-x"
+    "credential": {
+      "claim": {
+        "cTypeHash": "0x47d04c42bdf7fdd3fc5a194bcaa367b2f4766a6b16ae3df628927656d818f420",
+        "contents": {
+          "Twitter": "mr-x"
+        },
+        "owner": "did:kilt:4pqDzaWi3w7TzYzGnQDyrasK6UnyNnW6JQvWRrq6r8HzNNGy"
       },
-      "owner": "did:kilt:4pqDzaWi3w7TzYzGnQDyrasK6UnyNnW6JQvWRrq6r8HzNNGy"
+      "claimHashes": [
+        "0xb5984f7bf846423a4e884958d02fe479740a526d2a48f3eb28c2ebd585d79652",
+        "0xdd6d86383c8b70b2fb0a56ff6d91d37220a305f5b72c5b437cc2a3c34c077b0e"
+      ],
+      "claimNonceMap": {
+        "0x23d9ca2b4e78dadf9bba99396f1023a9912dd7ca60f4346a19372c79cf71608e": "05e74568-4685-4550-ac6c-368120696634",
+        "0x5690599ee6cb1835146780d883b5ab5ff83a0e55fef79dc5c721c6cb125c6e22": "f9bc9b46-61c3-47f0-95ea-7cc53f374b9e"
+      },
+      "claimerSignature": {
+        "keyId": "did:kilt:4pqDzaWi3w7TzYzGnQDyrasK6UnyNnW6JQvWRrq6r8HzNNGy#0xfb589865a4ecd8bf5e9f9e7c7d26293d6123f9c2d09b92e0a787f9641918d6b3",
+        "signature": "0x0c4bb527df1d4c4ce0ac35beeecec42422cd84fdd8272dee2b2f28305c6e73594ff5b72dfad266b6aa756af161690ae96c234ba9a1bb3998c969f3d5ef4b768b"
+      },
+      "legitimations": [],
+      "rootHash": "0x73b2063f713258256c93eecc6b7633583647aa9232b1ed5620eb971cd3309727"
     },
-    "claimHashes": [
-      "0xb5984f7bf846423a4e884958d02fe479740a526d2a48f3eb28c2ebd585d79652",
-      "0xdd6d86383c8b70b2fb0a56ff6d91d37220a305f5b72c5b437cc2a3c34c077b0e"
-    ],
-    "claimNonceMap": {
-      "0x23d9ca2b4e78dadf9bba99396f1023a9912dd7ca60f4346a19372c79cf71608e": "05e74568-4685-4550-ac6c-368120696634",
-      "0x5690599ee6cb1835146780d883b5ab5ff83a0e55fef79dc5c721c6cb125c6e22": "f9bc9b46-61c3-47f0-95ea-7cc53f374b9e"
-    },
-    "claimerSignature": {
-      "keyId": "did:kilt:4pqDzaWi3w7TzYzGnQDyrasK6UnyNnW6JQvWRrq6r8HzNNGy#0xfb589865a4ecd8bf5e9f9e7c7d26293d6123f9c2d09b92e0a787f9641918d6b3",
-      "signature": "0x0c4bb527df1d4c4ce0ac35beeecec42422cd84fdd8272dee2b2f28305c6e73594ff5b72dfad266b6aa756af161690ae96c234ba9a1bb3998c969f3d5ef4b768b"
-    },
-    "legitimations": [],
-    "rootHash": "0x73b2063f713258256c93eecc6b7633583647aa9232b1ed5620eb971cd3309727"
+    "metadata": {
+      "label": "My Personal Twitter Credential",
+      "blockNumber": 199530,
+      "txHash": "0x366a3e938b94cf585896d8da93e0d6729fcb7b3f9d16cf69e07ff595c0becc40"
+    }
   }
 ]
 ```
 
-For more information about KILT and its credential structure, please visit the [official documentation][kilt-credential-docs].
+Each object in the list MUST have the following structure, and consumers of this list MUST discard any additional properties that are not defined in this specification:
+
+- `credential`: [REQUIRED] It is a regular KILT request for attestation object, as specified in the [KILT official documentation][kilt-credential-docs].
+- `metadata`: [OPTIONAL] It contains additional metadata that applications could use to convey additional information to their users.
+  - `label`: [OPTIONAL] It contains a label for the credential this metadata object is linked to.
+  - `blockNumber`: [OPTIONAL] It contains the block number in which the credential has been attested on the KILT blockchain. This information can be used to perform RPC calls to KILT full nodes via the `chain > getBlockHash(blockNumber)` and `chain > getBlock(hash)` endpoints.
+  - `txHash`: [OPTIONAL] It contains the hash of the attestation transaction. If also `blockNumber` is specified, then applications MUST ensure that a transaction identified by `txHash` is present in the block # `blockNumber`.
 
 ## Security considerations
 
