@@ -8,6 +8,17 @@ const web3Name = 'john_doe'
 // The type to filter the endpoints of the retrieved DID.
 const endpointType = 'KiltPublishedCredentialCollectionV1'
 
+type CredentialMetadata = {
+  label?: string
+  blockNumber?: number
+  txHash?: string
+}
+
+type CredentialEntry = {
+  credential: Kilt.IRequestForAttestation
+  metadata?: CredentialMetadata
+}
+
 const verifyCredential = async (
   publishedCredential: Kilt.RequestForAttestation
 ): Promise<boolean> => {
@@ -59,7 +70,7 @@ async function main() {
 
   // Retrieve the credentials pointed at by the endpoint. Being an IPFS endpoint, the fetching can take an arbitrarily long time or even fail if the timeout is reached.
   // The case where the result is not a JSON should be properly handled in production settings.
-  const credentialCollection: Kilt.IRequestForAttestation[] = await fetch(
+  const credentialCollection: CredentialEntry[] = await fetch(
     firstCredentialCollectionEndpointUrl
   ).then((response) => response.json())
   console.log(`Credential collection behind the endpoint:`)
@@ -67,7 +78,7 @@ async function main() {
 
   // Verify that all credentials are valid and that they all refer to the same DID.
   await Promise.all(
-    credentialCollection.map(async (credential) => {
+    credentialCollection.map(async ({ credential }) => {
       const credentialInstance =
         Kilt.RequestForAttestation.fromRequest(credential)
       // Verify the credential integrity and signature, according to the KILT specification.
@@ -91,5 +102,5 @@ async function main() {
 
 main()
   .then(() => process.exit(0))
-  .catch((e) => console.error(e))
+  .catch(() => process.exit(1))
   .finally(async () => await Kilt.disconnect())
