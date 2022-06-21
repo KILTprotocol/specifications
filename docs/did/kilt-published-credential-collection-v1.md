@@ -61,7 +61,7 @@ The structure of the resource returned by the service endpoint MUST be **a list 
         "0x5690599ee6cb1835146780d883b5ab5ff83a0e55fef79dc5c721c6cb125c6e22": "f9bc9b46-61c3-47f0-95ea-7cc53f374b9e"
       },
       "claimerSignature": {
-        "keyId": "did:kilt:4pqDzaWi3w7TzYzGnQDyrasK6UnyNnW6JQvWRrq6r8HzNNGy#0xfb589865a4ecd8bf5e9f9e7c7d26293d6123f9c2d09b92e0a787f9641918d6b3",
+        "keyUri": "did:kilt:4pqDzaWi3w7TzYzGnQDyrasK6UnyNnW6JQvWRrq6r8HzNNGy#0xfb589865a4ecd8bf5e9f9e7c7d26293d6123f9c2d09b92e0a787f9641918d6b3",
         "signature": "0x0c4bb527df1d4c4ce0ac35beeecec42422cd84fdd8272dee2b2f28305c6e73594ff5b72dfad266b6aa756af161690ae96c234ba9a1bb3998c969f3d5ef4b768b"
       },
       "legitimations": [],
