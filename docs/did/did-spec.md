@@ -41,7 +41,7 @@ The KILT DID supports two classes of identifiers, light and full.
 A KILT light DID has the following structure:
 
 ```
-kilt-did            = "did:kilt:light:"<key-encoding><did-identifier>(":"<additional-details>)?
+kilt-did            = "did:kilt:light:" + <key-encoding> + <did-identifier> + [":" + <additional-details>]
 key-encoding        = [0-9][0-9]
 did-identifier      = <base-58-encoded-kilt-address>
 additional-details  = <base-58-encoded-details>
@@ -79,7 +79,7 @@ For simpler cases where only an authentication key is needed, the light DID will
 A KILT full DID has the following structure:
 
 ```
-kilt-did            = "did:kilt:"<did-identifier>
+kilt-did            = "did:kilt:" + <did-identifier>
 did-identifier      = <base-58-encoded-kilt-address>
 ```
 

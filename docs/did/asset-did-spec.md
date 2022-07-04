@@ -28,9 +28,9 @@ The Asset DID method is identified by the `asset` scheme, as in the following ex
 Asset DIDs are composed of the following elements:
 
 ```
-asset-did         = "did:asset:<caip-19-asset-id>"
-caip-19-asset-id  = "<caip-2-chain-id>:<asset-namespace>:<asset-reference>[:<asset-id>]"
-caip-2-chain-id   = "<chain-namespace>:<chain-reference>"
+asset-did         = "did:asset:" + <caip-19-asset-id>
+caip-19-asset-id  = <caip-2-chain-id> + ":" + <asset-namespace> + ":" + <asset-reference> + [":" + <asset-id>]
+caip-2-chain-id   = <chain-namespace> + ":" + <chain-reference>
 chain-namespace   = [-a-z0-9]{3,8}
 chain-reference   = [-a-zA-Z0-9]{1,32}
 asset-namespace   = [-a-z0-9]{3,8}
