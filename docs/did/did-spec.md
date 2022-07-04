@@ -18,7 +18,7 @@
 
 ## Abstract
 
-This document defines a the KILT DID Method that conforms to the [DID Core W3C Spec][did-core-spec].
+This document defines the KILT DID Method that conforms to the [DID Core W3C Spec][did-core-spec].
 A KILT Decentralized Identifier (DID) is a string uniquely identifying entities within the KILT network, allowing them to create CTypes, issue/collect attestations, and create delegation hierarchies.
 For more information about KILT DIDs and their usage, please visit our [official documentation][kilt-did-docs].
 
