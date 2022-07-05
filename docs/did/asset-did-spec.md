@@ -23,23 +23,24 @@ Hence, an Asset Decentralized Identifier (DID) is a string uniquely identifying 
 
 ### DID Scheme and Identifiers
 
-The Asset DID method is identified by the `asset` scheme, as in the following example: `did:asset:bip122:000000000019d6689c085ae165831e93:slip44:0`.
+The Asset DID method is identified by the `asset` scheme, as in the following example: `did:asset:bip122:000000000019d6689c085ae165831e93.slip44:0`.
 
 Asset DIDs are composed of the following elements:
 
 ```
-asset-did         = "did:asset:" + <caip-19-asset-id>
-caip-19-asset-id  = <caip-2-chain-id> + ":" + <asset-namespace> + ":" + <asset-reference> + [":" + <asset-id>]
-caip-2-chain-id   = <chain-namespace> + ":" + <chain-reference>
-chain-namespace   = [-a-z0-9]{3,8}
-chain-reference   = [-a-zA-Z0-9]{1,32}
-asset-namespace   = [-a-z0-9]{3,8}
-asset-reference   = [-a-zA-Z0-9]{1,64}
-asset-id          = [-a-zA-Z0-9]{1,78}
+asset-did                   = "did:asset:" + <modified-caip-19-asset-id>
+modified-caip-19-asset-id   = <caip-2-chain-id> + "." + <asset-namespace> + ":" + <asset-reference> + [":" + <asset-id>]
+caip-2-chain-id             = <chain-namespace> + ":" + <chain-reference>
+chain-namespace             = [-a-z0-9]{3,8}
+chain-reference             = [-a-zA-Z0-9]{1,32}
+asset-namespace             = [-a-z0-9]{3,8}
+asset-reference             = [-a-zA-Z0-9]{1,64}
+asset-id                    = [-a-zA-Z0-9]{1,78}
 ```
 
 The `caip-2-chain-id` is a CAIP (Chain Agnostic Improvement Proposal) chain identifier as described in the [CAIP-2 Blockchain ID Specification][caip-2-spec].
-The `caip-19-asset-id` is derived from a CAIP asset identifier as described in the [CAIP-19 Asset Type and Asset ID Specification][caip-19-spec], where the occurrences of the `/` symbol are replaced with the `:` symbol, to render the resulting string a valid URI according to the [DID Core Specification][did-core-spec].
+The `modified-caip-19-asset-id` is derived from a CAIP asset identifier as described in the [CAIP-19 Asset Type and Asset ID Specification][caip-19-spec], with the `/` symbol separating the chain identifier from the asset identifier being replaced with the `.` symbol, and the optional `/` symbol preceding the `asset-id` component being replaced by the `:` symbol.
+This is required to render the resulting string a valid URI according to the [DID Core Specification][did-core-spec].
 
 Chain and asset namespaces are defined with Improvement Proposals and are stored under the [CAIP repository][caip-repo].
 For instance, the namespaces for [EIP155][caip-3-spec] (Ethereum-based) and [BIP122][caip-4-spec] (Bitcoin-based) chains as well as for [SLIP44][caip-20-spec] (native fungible tokens), [ERC20][caip-21-spec] (smart contract based tokens), and [ERC721][caip-22-spec] (NFTs) assets have already been defined.
@@ -69,12 +70,12 @@ The same process is followed for the asset identifier.
 The identifier is decomposed into its namespace, reference, and optional ID.
 Then, the resolver for the specified asset namespace is used to resolve the asset reference and ID.
 
-As an example, the returned DID Document for [one of the CryptoKitties NFTs](https://opensea.io/assets/ethereum/0x06012c8cf97bead5deae237070f9587f8e7a266d/634446), identified with the Asset DID `did:asset:eip155:0:erc721:0x06012c8cf97bead5deae237070f9587f8e7a266d:634446`, is the following:
+As an example, the returned DID Document for [one of the CryptoKitties NFTs](https://opensea.io/assets/ethereum/0x06012c8cf97bead5deae237070f9587f8e7a266d/634446), identified with the Asset DID `did:asset:eip155:0.erc721:0x06012c8cf97bead5deae237070f9587f8e7a266d:634446`, is the following:
 
 ```json
 {
   "@context": "https://www.w3.org/ns/did/v1",
-  "id": "did:asset:eip155:0:erc721:0x06012c8cf97bead5deae237070f9587f8e7a266d:634446",
+  "id": "did:asset:eip155:0.erc721:0x06012c8cf97bead5deae237070f9587f8e7a266d:634446",
   "controller": "did:pkh:eip155:0:0x929C3dAF2E2Be4C74A56EC01dF374bc46A34C6A1",
 }
 ```
