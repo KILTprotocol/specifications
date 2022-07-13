@@ -75,24 +75,87 @@ Then, the resolver for the specified asset namespace is used to resolve the asse
 
 As an example, the returned DID Document for [one of the CryptoKitties NFTs](https://opensea.io/assets/ethereum/0x06012c8cf97bead5deae237070f9587f8e7a266d/634446), identified with the Asset DID `did:asset:eip155:0.erc721:0x06012c8cf97bead5deae237070f9587f8e7a266d:634446`, is the following:
 
+<!-- TODO: Store the context somewhere and update this link when defined. -->
+
 ```json
 {
-  "@context": "https://www.w3.org/ns/did/v1",
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://kilt.io/asset-did-context.json"
+  ],
   "id": "did:asset:eip155:0.erc721:0x06012c8cf97bead5deae237070f9587f8e7a266d:634446",
   "controller": "did:pkh:eip155:0:0x929C3dAF2E2Be4C74A56EC01dF374bc46A34C6A1",
+  "service": [{
+    "id": "did:asset:eip155:0.erc721:0x06012c8cf97bead5deae237070f9587f8e7a266d:634446#0x1234567812345678123456781234567812345678123456781234567812345678",
+    "type": "KiltPublicCredentialV1",
+    "serviceEndpoint": "polkadot:411f057b9107718c9624d6aa4a3f23c1#123"
+  }],
 }
 ```
 
 where the `controller` field is optional and present only if the referenced asset class supports the concepts of ownership (which is not present, for instance, in the definition of a fungible asset class).
 If present, the `controller` property represents the asset owner and their [DID PKH](https://github.com/w3c-ccg/did-pkh/blob/main/did-pkh-method-draft.md).
 
+The `service` property contains a list of objects with the following structure:
+
+- `id`: it is the Asset DID URI fragment `{asset_did}#{credential_root_hash}` where the `credential_root_hash` is the root hash of the KILT credential being exposed by the service endpoint. For more information about the public credential, refer to the section below about [Asset DID fragments](#resolve-an-asset-did-fragment)
+- `type`: for asset public credentials, it is always `KiltPublicCredentialV1`
+- `serviceEndpoint`: indicates the blockchain and block number in which the credential was issued. It has the format `{caip_2}#{block_number}` where `caip_2` indicates the blockchain that contains the credential information and `block_number` the block at which the issuance transaction was submitted. In this specification and in this version, we restrict the set of possible values to only `polkadot:411f057b9107718c9624d6aa4a3f23c`, which is the CAIP-2 identifier for the KILT Spiritnet blockchain
+
 DID resolvers compliant to the DID Specification will return the relevant error codes in case the asset specified cannot be resolved (e.g., if it does not exist).
 
 <!-- TODO: Investigate the usage of the `alsoKnownAs` property when supporting asset transfers -->
 
+#### Resolve an Asset DID fragment
+
+<!-- TODO: Update once the node PR has been reviewed and merged or is at least ready to be merged -->
+
+Fragments in Asset DID are used to indicate public credentials that have been issued to that asset.
+
+In the example above: the DID fragment `did:asset:eip155:0.erc721:0x06012c8cf97bead5deae237070f9587f8e7a266d:634446#0x1234567812345678123456781234567812345678123456781234567812345678` indicates that the asset `did:asset:eip155:0.erc721:0x06012c8cf97bead5deae237070f9587f8e7a266d:634446` has been issued a KILT credential with the root hash `0x1234567812345678123456781234567812345678123456781234567812345678`.
+The complete credential can be fetched from any KILT full node that is running in archive mode, i.e., that stores all the blocks ever produced.
+
+Using the block number specified in the `serviceEndpoint` property, the block information can be queried from the node with the following RPC calls: `chain > getBlockHash(blockNumber)` to get the hash of the block with a given number, and then `chain > getBlock(hash)` to get all the transactions submitted and the events generated within that block.
+
+Once the list of transactions is available, only the successful ones belonging to the `public-credentials` section and for the `add` method must be considered.
+In some cases, more than one transaction of this type might be included in the same block: to distinguish, another filter based on the Asset DID and the credential root hash must be used.
+In the edge case in which the result still contains multiple transactions, e.g. if within the same block a credential is issued, then revoked, then issued again, only the last `add` operation should be considered.
+
+The information returned by the node has the following relevant fields, which is a non-exhaustive list:
+
+```json
+{
+  "claim": {
+    "ctype_hash": "0xabcd...",
+    "subject": "did:asset:eip155:0.erc721:0x06012c8cf97bead5deae237070f9587f8e7a266d:634446",
+    "contents": "0xdcba..."
+  },
+  "nonce": "0x01234....",
+  "claim_hash": "0x1234567812345678123456781234567812345678123456781234567812345678",
+  "claimer_signature": {
+    "claimer_id": "4fa...",
+    "signature_payload": "0x4321..."
+  }
+}
+```
+
+- `claim`
+  - `ctype_hash`: the KILT Ctype which the public credential conforms to, as specified by the KILT issuance protocol
+  - `subject`: the Asset DID to which the credential has been issued. **This value must match the one used to retrieve this information**
+  - `contents`: the CBOR serialisation of the credential claims, as described in the [KILT documentation](https://docs.kilt.io/docs/concepts/credentials/claiming)
+- `nonce`: the nonce used to hash each claim and generate the credential root hash
+- `claim_hash`: the credential root hash
+- `claimer_signature` [OPTIONAL]
+  - `claimer_id`: the identifier of the claimer's KILT DID. When parsed, it must be prefixed with `did:kilt`
+  - `signature_payload`: the DID signature the claimer generated over the credential root hash, and that is used to proof the involvement of the claimer in the credential issuance process to the specified asset
+
+<!-- TODO: Add link to the docs when support is added and docs are deployed -->
+
+The obtained object can then be parsed and validated using the functionalities provided by the KILT SDK.
+
 ### Update an Asset DID
 
-The Asset DID method does not support updates, being a purely generative method.
+The Asset DID method does not support direct updates, being a purely generative method, but its resolution reflects any changes to the underlying asset or to its credentials.
 
 ### Deactivate an Asset DID
 
