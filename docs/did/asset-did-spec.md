@@ -59,7 +59,7 @@ For instance, a "right to create" a new NFT collection on a given blockchain for
 
 The information required to resolve an Asset DID is the following:
 
-- The **chain** on which the asset live, e.g., the Ethereum mainnet
+- The **chain** on which the asset lives, e.g., the Ethereum mainnet
 - The **namespace** defining the asset, e.g., the ERC721 namespace
 - The **reference** to the asset class within the defined namespace, e.g., the smart contract address for an NFT collection
 - [OPTIONAL] The unique **identifier** of the asset instance within the asset class, e.g., the NFT ID within a given collection
