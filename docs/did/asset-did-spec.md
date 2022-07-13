@@ -8,7 +8,7 @@
 
 ### Version History
 
-- **v1.0 - July.04 2022**: Initial definition and RFC for the new method
+- **v1.0 - July.13 2022**: Initial definition and RFC for the new method
 
 ---
 
@@ -49,8 +49,11 @@ For instance, the namespaces for [EIP155][caip-3-spec] (Ethereum-based) and [BIP
 
 ### Create an Asset DID
 
-A new Asset DID creation is automatically performed whenever a new asset class is deployed or a new asset instance for a given class minted.
+An Asset DID as such is not directly created, but it is generated at any time from a specific asset on as specific network.
 Because of the chain agnostic nature of Asset DIDs, this process can take place on any blockchain that is identifiable by a [CAIP-2 Identifier][caip-2-spec].
+
+Furthermore, as far as Asset DIDs are concerned, the assets identified do not need to already exist.
+For instance, a "right to create" a new NFT collection on a given blockchain for a user could be encoded in a [Verifiable Credential][vc-spec] where the identifier of the asset is an Asset DID.
 
 ### Resolve an Asset DID
 
@@ -97,6 +100,7 @@ Updates operations are defined by the asset class and regulated by the network o
 An Asset DID deactivation is automatically performed whenever the underlying asset ceases to exist, e.g., when it is burned.
 
 [did-core-spec]: https://www.w3.org/TR/did-core
+[vc-spec]: https://www.w3.org/TR/2022/REC-vc-data-model-20220303/
 [caip-repo]: https://github.com/ChainAgnostic/CAIPs
 [caip-2-spec]: https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-2.md
 [caip-3-spec]: https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-3.md
