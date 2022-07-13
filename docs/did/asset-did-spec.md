@@ -92,12 +92,11 @@ DID resolvers compliant to the DID Specification will return the relevant error 
 
 ### Update an Asset DID
 
-An Asset DID update is automatically performed whenever the underlying asset is updated, e.g., when its ownership changes.
-Updates operations are defined by the asset class and regulated by the network on which the asset lives, hence they are not within the scope of this method specification.
+The Asset DID method does not support updates, being a purely generative method.
 
 ### Deactivate an Asset DID
 
-An Asset DID deactivation is automatically performed whenever the underlying asset ceases to exist, e.g., when it is burned.
+The Asset DID method does not support deactivations, being a purely generative method.
 
 [did-core-spec]: https://www.w3.org/TR/did-core
 [vc-spec]: https://www.w3.org/TR/2022/REC-vc-data-model-20220303/
