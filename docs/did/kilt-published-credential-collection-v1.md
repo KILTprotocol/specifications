@@ -1,4 +1,4 @@
-[![](https://user-images.githubusercontent.com/39338561/122415864-8d6a7c00-cf88-11eb-846f-a98a936f88da.png)](https://kilt.io)
+[![](../../.maintain/media/kilt-header.png)](https://kilt.io)
 
 # KiltPublishedCredentialCollectionV1
 

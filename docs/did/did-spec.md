@@ -1,4 +1,4 @@
-[![](https://user-images.githubusercontent.com/39338561/122415864-8d6a7c00-cf88-11eb-846f-a98a936f88da.png)](https://kilt.io)
+[![](../../.maintain/media/kilt-header.png)](https://kilt.io)
 
 # KILT Decentralized Identifiers (DID) Method Specification
 
@@ -18,7 +18,7 @@
 
 ## Abstract
 
-This document defines a the KILT DID Method that conforms to the [DID Core W3C Spec][did-core-spec].
+This document defines the KILT DID Method that conforms to the [DID Core W3C Spec][did-core-spec].
 A KILT Decentralized Identifier (DID) is a string uniquely identifying entities within the KILT network, allowing them to create CTypes, issue/collect attestations, and create delegation hierarchies.
 For more information about KILT DIDs and their usage, please visit our [official documentation][kilt-did-docs].
 
@@ -41,7 +41,7 @@ The KILT DID supports two classes of identifiers, light and full.
 A KILT light DID has the following structure:
 
 ```
-kilt-did            = "did:kilt:light:"<key-encoding><did-identifier>(":"<additional-details>)?
+kilt-did            = "did:kilt:light:" + <key-encoding> + <did-identifier> + [":" + <additional-details>]
 key-encoding        = [0-9][0-9]
 did-identifier      = <base-58-encoded-kilt-address>
 additional-details  = <base-58-encoded-details>
@@ -79,7 +79,7 @@ For simpler cases where only an authentication key is needed, the light DID will
 A KILT full DID has the following structure:
 
 ```
-kilt-did            = "did:kilt:"<did-identifier>
+kilt-did            = "did:kilt:" + <did-identifier>
 did-identifier      = <base-58-encoded-kilt-address>
 ```
 
