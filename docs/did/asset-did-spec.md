@@ -83,7 +83,7 @@ The same process is followed for the asset identifier.
 The identifier is decomposed into its namespace, reference, and optional ID.
 Then, the resolver for the specified asset namespace is used to resolve the asset reference and ID.
 
-As an example, the returned DID Document for [one of the CryptoKitties NFTs](https://opensea.io/assets/ethereum/0x06012c8cf97bead5deae237070f9587f8e7a266d/634446), identified with the Asset DID `did:asset:eip155:0.erc721:0x06012c8cf97bead5deae237070f9587f8e7a266d:634446`, is the following:
+As an example, the returned DID Document for [one of the CryptoKitties NFTs](https://opensea.io/assets/ethereum/0x06012c8cf97bead5deae237070f9587f8e7a266d/634446), identified with the Asset DID `did:asset:eip155:1.erc721:0x06012c8cf97bead5deae237070f9587f8e7a266d:634446`, is the following:
 
 <!-- TODO: Store the context somewhere and update this link when defined. -->
 
@@ -93,7 +93,7 @@ As an example, the returned DID Document for [one of the CryptoKitties NFTs](htt
     "https://www.w3.org/ns/did/v1",
     "https://kilt.io/asset-did-context.json"
   ],
-  "id": "did:asset:eip155:0.erc721:0x06012c8cf97bead5deae237070f9587f8e7a266d:634446",
+  "id": "did:asset:eip155:1.erc721:0x06012c8cf97bead5deae237070f9587f8e7a266d:634446",
   "chain": {
     "namespace": "eip155",
     "reference": "0"
