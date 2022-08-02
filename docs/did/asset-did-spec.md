@@ -137,6 +137,13 @@ The presence of any query parameters in an Asset DID URL will be disregarded.
 At the present time, not fragments is allowed in an Asset DID URL.
 The specification of fragments in an Asset DID URL will result in a parsing error.
 
+## Security and Privacy Requirements
+
+Being purely generative, Asset DIDs do not have support for verification and encryption keys.
+
+Furthermore, since Asset DIDs are meant to identify public, passive assets, correlation is a needed feature.
+It is possible for two different Asset DIDs to logically refer to the same asset (for instance NFTs that have been bridged across chains), and research is undergoing to provide a link between all the different instances of it.
+
 [did-core-spec]: https://www.w3.org/TR/did-core
 [did-resolve-spec]: https://w3c-ccg.github.io/did-resolution/
 [did-url-spec]: https://www.w3.org/TR/did-core/#did-url-syntax
