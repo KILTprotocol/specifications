@@ -1,5 +1,7 @@
 [![](../../.maintain/media/kilt-header.png)](https://kilt.io)
 
+### **This repo has been archived in favor of individual repositories for each of the specifications. Please visit https://github.com/KILTprotocol/spec-asset-did for the latest version.**
+
 # Asset Decentralized Identifiers (DID) Method Specification
 
 ### Editors
